@@ -5,21 +5,21 @@
     </v-main>
 
     <v-footer app v-bind="localAttrs">
-      <Footer />
+      <TheFooter />
     </v-footer>
   </v-app>
 </template>
 
 <script>
 import ContentBlock from './components/ContentBlock';
-import Footer from './components/Footer';
+import TheFooter from './components/TheFooter';
 
 export default {
   name: 'App',
 
   components: {
     ContentBlock,
-    Footer
+    TheFooter
   },
 
   computed: {

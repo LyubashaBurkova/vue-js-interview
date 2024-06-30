@@ -1,42 +1,5 @@
 <template>
-  <v-container>
-    <v-row
-        align="center"
-        justify="center"
-        class="ma-4"
-    >
-      <v-col cols="12">
-        <v-img
-            :src="require('../assets/logo.svg')"
-            class="my-3"
-            contain
-            height="200"
-        />
-      </v-col>
-
-      <ContentBlockFilters />
-      <ContentBlockList />
-
-      <!--<v-col
-          cols="12"
-          md="4"
-      >
-        <v-select
-            v-model="variant"
-            :items="items"
-            clearable
-            label="Filter by country"
-        ></v-select>
-
-        <v-select
-            v-model="variant"
-            :items="items"
-            clearable
-            label="Filter by score"
-        ></v-select>
-      </v-col>-->
-
-      <!--<v-col
+    <v-col
           cols="12"
           md="4"
       >
@@ -74,25 +37,14 @@
             </template>
           </v-list>
         </v-card>
-
-      </v-col>-->
-    </v-row>
-  </v-container>
+      </v-col>
 </template>
-
 <script>
-import ContentBlockFilters from '@/components/ContentBlockFilters'
-import ContentBlockList from '@/components/ContentBlockList'
 export default {
-    name: 'ContentBlock',
-
-    components: {
-      ContentBlockFilters,
-      ContentBlockList
-    },
+    name: 'ContentBlockList',
 
     data: () => ({
-      users: [
+        users: [
         { header: 'List' },
         {
           avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
@@ -124,6 +76,6 @@ export default {
           subtitle: '<span class="text--primary">Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
         },
       ],
-    }),
-  }
+    })
+}
 </script>
