@@ -13,10 +13,5 @@
   </v-card>
 </template>
 
-<script>
-export default {
-  name: 'TheFooter',
-
-  data: () => ({}),
-}
+<script setup>
 </script>

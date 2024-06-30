@@ -4,14 +4,14 @@
           md="4"
       >
         <v-select
-            v-model="selectCountry"
+            v-model="selectedCountry"
             :items="countries"
             clearable
             label="Filter by country"
         ></v-select>
 
         <v-select
-            v-model="selectScore"
+            v-model="selectedScore"
             :items="scores"
             clearable
             label="Filter by score"
@@ -19,22 +19,23 @@
     </v-col>
 </template>
 
-<script>
-export default {
-    name: 'ContentBlockFilters',
+<script setup>
+  import { ref, watch } from 'vue'
+  import { useMainStore } from '@/stores/index'
+  const mainStore = useMainStore()
 
-    data: () => ({
-        countries:[
-            'russia',
-            'usa'
-        ],
-        scores: [
-            '> 20',
-            '< 10',
-        ],
-        variant: 'default',
-        selectCountry: null,
-        selectScore: null
-    })
-}
+  const selectedCountry = ref(null)
+  const selectedScore = ref(null)
+  selectedCountry.value = mainStore.selectedCountry
+  selectedScore.value = mainStore.selectedScore
+
+  watch(selectedCountry, (newValue, oldValue) => {
+    console.log(`Count changed from ${oldValue} to ${newValue}`);
+    mainStore.setCountryFilter(selectedCountry.value)
+  });
+
+  watch(selectedScore, (newValue, oldValue) => {
+    console.log(`Count changed from ${oldValue} to ${newValue}`);
+    mainStore.setScoreFilter(selectedScore.value)
+  });
 </script>

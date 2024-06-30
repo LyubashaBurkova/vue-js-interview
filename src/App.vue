@@ -10,31 +10,17 @@
   </v-app>
 </template>
 
-<script>
+<script setup>
+import { ref, computed } from 'vue';
 import ContentBlock from './components/ContentBlock';
 import TheFooter from './components/TheFooter';
 
-export default {
-  name: 'App',
+const localAttrs = computed(() => {
+    const attrs = ref({});
 
-  components: {
-    ContentBlock,
-    TheFooter
-  },
+    attrs.absolute = true
+    attrs.fixed = false
 
-  computed: {
-    localAttrs () {
-      const attrs = {}
-
-      attrs.absolute = true
-      attrs.fixed = false
-
-      return attrs
-    },
-  },
-
-  data: () => ({
-    //
-  }),
-};
+    return attrs
+})
 </script>
