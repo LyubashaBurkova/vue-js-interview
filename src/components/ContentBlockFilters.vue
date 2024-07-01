@@ -20,22 +20,75 @@
 </template>
 
 <script setup>
-  import { ref, watch } from 'vue'
+  import { ref, watch, onMounted } from 'vue'
   import { useMainStore } from '@/stores/index'
   const mainStore = useMainStore()
+
+  const countries = mainStore.countries
+  const scores = mainStore.scores
 
   const selectedCountry = ref(null)
   const selectedScore = ref(null)
   selectedCountry.value = mainStore.selectedCountry
   selectedScore.value = mainStore.selectedScore
 
+  onMounted(() => {
+    filterCountry(mainStore.selectedCountry, mainStore.selectedScore)
+  })
+
+  const filteredUsers = ref([])
+
+  function filterUser(country, score) {
+    if (country && score) {
+      mainStore.setCountryFilter(country)
+      mainStore.setScoreFilter(score)
+      filteredUsers.value = mainStore.users
+        .filter(user => user.country == country)
+        .filter(user => performComparison(user.score, score))
+    } else if (country) {
+      mainStore.setCountryFilter(country)
+      mainStore.setScoreFilter(null)
+      filteredUsers.value = mainStore.users
+        .filter(user => user.country == country)
+    } else {
+      mainStore.setCountryFilter(null)
+      mainStore.setScoreFilter(score)
+      filteredUsers.value = mainStore.users
+        .filter(user => performComparison(user.score, score))
+    }
+    mainStore.setFilteredUsers(filteredUsers.value)
+  }
+
+  function filterCountry(country, score) {
+    mainStore.setLoading(true)
+    if (country || score) {
+      filterUser(country, score)
+    } else {
+      mainStore.setCountryFilter(null)
+      mainStore.setScoreFilter(null)
+      mainStore.setFilteredUsers(mainStore.users)
+    }
+    mainStore.setLoading(false)
+  }
+
   watch(selectedCountry, (newValue, oldValue) => {
     console.log(`Count changed from ${oldValue} to ${newValue}`);
-    mainStore.setCountryFilter(selectedCountry.value)
+    filterCountry(newValue, mainStore.selectedScore)
   });
 
   watch(selectedScore, (newValue, oldValue) => {
     console.log(`Count changed from ${oldValue} to ${newValue}`);
-    mainStore.setScoreFilter(selectedScore.value)
+    filterCountry(mainStore.selectedCountry, newValue)
   });
+
+  function performComparison(value, comparisonString) {
+    switch (comparisonString?.trim()) {
+      case "> 20":
+        return value > 20;
+      case "< 10":
+        return value < 10;
+      default:
+        throw new Error(`Unsupported comparison: ${comparisonString}`);
+    }
+  }
 </script>
